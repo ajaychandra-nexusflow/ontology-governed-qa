@@ -1,0 +1,10 @@
+{
+  "name": "ontology-governed-qa",
+  "version": "1.0.0",
+  "description": "Design and run governed natural-language Q&A over business data: OWL 2 ontology definitions compile to SQL, every answer carries a governance line, and accuracy is measured against a golden set.",
+  "author": { "name": "<your-name>" },
+  "homepage": "https://github.com/<your-github-username>/ontology-governed-qa",
+  "repository": "https://github.com/<your-github-username>/ontology-governed-qa",
+  "license": "MIT",
+  "keywords": ["ontology", "owl", "sparql", "shacl", "text-to-sql", "governance", "data-quality", "rag", "knowledge-graph"]
+}

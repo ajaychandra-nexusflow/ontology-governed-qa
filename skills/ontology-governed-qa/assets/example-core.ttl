@@ -1,0 +1,57 @@
+@prefix odp:  <https://example.com/odp#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+# --- Vocabulary -------------------------------------------------------------
+odp:Concept          a owl:Class ; rdfs:label "Concept" .
+odp:ExpenseCategory  a owl:Class ; rdfs:label "Expense category" .
+odp:Binding          a owl:Class ; rdfs:label "Binding" .
+odp:Metric           a owl:Class ; rdfs:label "Metric" .
+odp:Rule             a owl:Class ; rdfs:label "Rule" .
+
+odp:includesCategory a owl:ObjectProperty ; rdfs:domain odp:Concept ; rdfs:range odp:ExpenseCategory .
+odp:excludesCategory a owl:ObjectProperty ; rdfs:domain odp:Concept ; rdfs:range odp:ExpenseCategory .
+odp:bindsConcept     a owl:ObjectProperty ; rdfs:domain odp:Binding ; rdfs:range odp:Concept .
+odp:appliesConcept   a owl:ObjectProperty ; rdfs:domain odp:Metric  ; rdfs:range odp:Concept .
+odp:governedBy       a owl:ObjectProperty ; rdfs:domain odp:Metric  ; rdfs:range odp:Rule .
+odp:targetTable      a owl:DatatypeProperty ; rdfs:domain odp:Binding .
+odp:categoryColumn   a owl:DatatypeProperty ; rdfs:domain odp:Binding .
+odp:glFrom           a owl:DatatypeProperty ; rdfs:domain odp:Binding .
+odp:glTo             a owl:DatatypeProperty ; rdfs:domain odp:Binding .
+
+# --- Categories -------------------------------------------------------------
+odp:AIR     a odp:ExpenseCategory ; rdfs:label "Air" .
+odp:HOTEL   a odp:ExpenseCategory ; rdfs:label "Hotel" .
+odp:RAIL    a odp:ExpenseCategory ; rdfs:label "Rail" .
+odp:MEAL    a odp:ExpenseCategory ; rdfs:label "Meal" .
+odp:MILEAGE a odp:ExpenseCategory ; rdfs:label "Mileage" .
+
+# --- Core concept: Travel ---------------------------------------------------
+odp:Travel a odp:Concept ;
+    rdfs:label "Travel" ;
+    skos:definition "Air, hotel and rail costs incurred on business trips." ;
+    skos:altLabel "business travel", "T&E travel" ;
+    odp:includesCategory odp:AIR, odp:HOTEL, odp:RAIL ;
+    odp:excludesCategory odp:MEAL, odp:MILEAGE .
+
+odp:TravelSpendBinding a odp:Binding ;
+    odp:bindsConcept odp:Travel ;
+    odp:targetTable "gold.fact_expense_line" ;
+    odp:categoryColumn "expense_category_code" .
+
+odp:TravelBudgetBinding a odp:Binding ;
+    odp:bindsConcept odp:Travel ;
+    odp:targetTable "gold.fact_budget" ;
+    odp:glFrom 6100 ;
+    odp:glTo 6199 .
+
+odp:TravelVarianceComparison a odp:Rule ;
+    rdfs:label "Travel variance comparison" ;
+    skos:definition "Approved claims only; Plan scenario only; no spend counts as 0; spend with no budget is reported separately." .
+
+odp:TravelSpend a odp:Metric ;
+    odp:appliesConcept odp:Travel ;
+    odp:governedBy odp:TravelVarianceComparison .

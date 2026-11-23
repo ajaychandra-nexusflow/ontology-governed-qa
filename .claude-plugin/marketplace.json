@@ -1,0 +1,14 @@
+{
+  "name": "ontology-governed-qa",
+  "owner": { "name": "<your-name>" },
+  "plugins": [
+    {
+      "name": "ontology-governed-qa",
+      "source": "./",
+      "description": "Governed natural-language Q&A over business data using an OWL 2 ontology: concept definitions, SQL bindings, rules, governance drift comparison, extension gates and golden-set evaluation.",
+      "version": "1.0.0",
+      "license": "MIT",
+      "keywords": ["ontology", "owl", "text-to-sql", "governance", "shacl"]
+    }
+  ]
+}

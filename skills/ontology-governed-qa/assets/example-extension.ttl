@@ -1,0 +1,22 @@
+@prefix odp:  <https://example.com/odp#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+# Extension: Subsistence (meals and mileage on business trips)
+odp:Subsistence a odp:Concept ;
+    rdfs:label "Subsistence" ;
+    skos:definition "Meals and mileage incurred while on business trips. Excludes air, hotel and rail." ;
+    skos:altLabel "per diem", "meals and mileage" ;
+    odp:includesCategory odp:MEAL, odp:MILEAGE ;
+    odp:excludesCategory odp:AIR, odp:HOTEL, odp:RAIL .
+
+odp:SubsistenceSpendBinding a odp:Binding ;
+    odp:bindsConcept odp:Subsistence ;
+    odp:targetTable "gold.fact_expense_line" ;
+    odp:categoryColumn "expense_category_code" .
+
+odp:SubsistenceBudgetBinding a odp:Binding ;
+    odp:bindsConcept odp:Subsistence ;
+    odp:targetTable "gold.fact_budget" ;
+    odp:glFrom 6200 ;
+    odp:glTo 6299 .
